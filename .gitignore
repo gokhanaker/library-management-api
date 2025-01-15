@@ -1,0 +1,59 @@
+HELP.md
+.gitattributes
+.idea
+.mvn
+target
+
+# Maven and Java
+*.jar                               # JAR files
+*.war                               # WAR files
+*.ear                               # EAR files
+.mvn/                               # Maven wrapper files
+!**/src/main/**                     # Ensure source files are not ignored
+mvnw
+mvnw.cmd
+
+# IntelliJ IDEA
+.idea/                              # IntelliJ project files
+*.iml                               # IntelliJ module files
+out/                                # IntelliJ build output folder
+
+# VS Code
+.vscode/                            # VS Code settings
+
+# Logs
+*.log                               # Log files
+logs/                               # Log directories
+
+# OS Files
+.DS_Store                           # macOS metadata files
+Thumbs.db                           # Windows thumbnail cache
+ehthumbs.db                         # Windows thumbnail cache
+*.swp                               # Vim swap files
+
+# Environment Variables and Credentials
+.env                                # Environment variable files
+*.key                               # Private keys
+*.pem                               # Certificate files
+
+# Spring Boot Properties
+application.properties              # Default Spring Boot properties
+application.yml                     # Default YAML configuration
+application-*.properties            # Environment-specific properties
+application-*.yml                   # Environment-specific YAML
+
+# Build Tool Files
+pom.xml.tag                         # Maven temporary files
+pom.xml.releaseBackup               # Maven release backups
+pom.xml.versionsBackup              # Maven dependency backup files
+.settings/                          # Eclipse project settings
+*.factorypath                       # Eclipse build path files
+.mvn/jvm.config                     # JVM-specific configuration for Maven
+
+# Cache and Temporary Files
+*.tmp                               # Temporary files
+*.bak                               # Backup files
+*.pid                               # PID files
+*.old                               # Old files
+*.orig                              # Original files
+tmp/                                # Temporary directories
