@@ -1,59 +1,31 @@
-HELP.md
-.gitattributes
-.idea
-.mvn
-target
+# Ignore application.properties and application.yml
+src/main/resources/application.properties
+src/main/resources/application.yml
 
-# Maven and Java
-*.jar                               # JAR files
-*.war                               # WAR files
-*.ear                               # EAR files
-.mvn/                               # Maven wrapper files
-!**/src/main/**                     # Ensure source files are not ignored
+# Maven specific files
+/target/
+*.iml
+.idea/
+*.class
+.mvn
 mvnw
 mvnw.cmd
 
-# IntelliJ IDEA
-.idea/                              # IntelliJ project files
-*.iml                               # IntelliJ module files
-out/                                # IntelliJ build output folder
-
-# VS Code
-.vscode/                            # VS Code settings
+# Other files
+.gitattributes
+HELP.md
 
 # Logs
-*.log                               # Log files
-logs/                               # Log directories
+*.log
 
-# OS Files
-.DS_Store                           # macOS metadata files
-Thumbs.db                           # Windows thumbnail cache
-ehthumbs.db                         # Windows thumbnail cache
-*.swp                               # Vim swap files
+# OS-specific files
+.DS_Store
+Thumbs.db
 
-# Environment Variables and Credentials
-.env                                # Environment variable files
-*.key                               # Private keys
-*.pem                               # Certificate files
+# IDE-specific files
+/.project
+/.settings/
+/.vscode/
 
-# Spring Boot Properties
-application.properties              # Default Spring Boot properties
-application.yml                     # Default YAML configuration
-application-*.properties            # Environment-specific properties
-application-*.yml                   # Environment-specific YAML
-
-# Build Tool Files
-pom.xml.tag                         # Maven temporary files
-pom.xml.releaseBackup               # Maven release backups
-pom.xml.versionsBackup              # Maven dependency backup files
-.settings/                          # Eclipse project settings
-*.factorypath                       # Eclipse build path files
-.mvn/jvm.config                     # JVM-specific configuration for Maven
-
-# Cache and Temporary Files
-*.tmp                               # Temporary files
-*.bak                               # Backup files
-*.pid                               # PID files
-*.old                               # Old files
-*.orig                              # Original files
-tmp/                                # Temporary directories
+# Exclude temporary files
+*.swp
