@@ -45,7 +45,7 @@ CREATE TABLE books (
     publication_date DATE,
     total_copies INT NOT NULL,
     available_copies INT NOT NULL,
-    category category_enum NOT NULL,
+    category VARCHAR(50) NOT NULL,
     author_fullname VARCHAR(255) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -57,5 +58,9 @@ public class BookService {
         book.setUpdatedAt(LocalDateTime.now());
 
         return bookRepository.save(book);
+    }
+
+    public List<Book> filterBooks(String title, String author, String category, String isbn) {
+        return bookRepository.filterBooks(title, author, category, isbn);
     }
 }
