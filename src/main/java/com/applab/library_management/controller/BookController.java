@@ -1,6 +1,7 @@
 package com.applab.library_management.controller;
 
 import com.applab.library_management.dto.AddBookRequestDTO;
+import com.applab.library_management.dto.UpdateBookRequestDTO;
 import com.applab.library_management.model.Book;
 import com.applab.library_management.service.BookService;
 import jakarta.validation.Valid;
@@ -41,4 +42,11 @@ public class BookController {
             bookService.deleteBook(id);
             return ResponseEntity.ok("Book deleted successfully");
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Book> updateBook(@PathVariable UUID id, @Valid @RequestBody UpdateBookRequestDTO updateBookDTO) {
+        Book updatedBook = bookService.updateBook(id, updateBookDTO);
+        return ResponseEntity.ok(updatedBook);
+    }
+
 }

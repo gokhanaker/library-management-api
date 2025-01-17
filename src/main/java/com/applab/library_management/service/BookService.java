@@ -1,6 +1,7 @@
 package com.applab.library_management.service;
 
 import com.applab.library_management.dto.AddBookRequestDTO;
+import com.applab.library_management.dto.UpdateBookRequestDTO;
 import com.applab.library_management.exception.BookExceptions;
 import com.applab.library_management.model.Book;
 import com.applab.library_management.repository.BookRepository;
@@ -71,9 +72,40 @@ public class BookService {
 
     public void deleteBook(UUID bookId) {
         allowOnlyLibrarianOrAdminForThisBookOperation();
-        Book book = bookRepository.findById(bookId)
+        bookRepository.findById(bookId)
                 .orElseThrow(() -> new BookExceptions.BookNotFoundException("Book not found with ID: " + bookId));
 
         bookRepository.deleteById(bookId);
+    }
+
+    public Book updateBook(UUID bookId, UpdateBookRequestDTO updateDTO) {
+        allowOnlyLibrarianOrAdminForThisBookOperation();
+
+        Book existingBook = bookRepository.findById(bookId).orElseThrow(() ->
+                new BookExceptions.BookNotFoundException("Book not found with ID: " + bookId));
+
+        if (updateDTO.getTitle() != null && !updateDTO.getTitle().isEmpty()) {
+            existingBook.setTitle(updateDTO.getTitle());
+        }
+        if (updateDTO.getDescription() != null && !updateDTO.getDescription().isEmpty()) {
+            existingBook.setDescription(updateDTO.getDescription());
+        }
+        if (updateDTO.getAuthor() != null && !updateDTO.getAuthor().isEmpty()) {
+            existingBook.setAuthor(updateDTO.getAuthor());
+        }
+        if (updateDTO.getCategory() != null && !updateDTO.getCategory().isEmpty()) {
+            existingBook.setCategory(updateDTO.getCategory());
+        }
+        if (updateDTO.getPublicationDate() != null) {
+            existingBook.setPublicationDate(updateDTO.getPublicationDate());
+        }
+        if (updateDTO.getTotalCopies() != null && updateDTO.getTotalCopies() >= 0) {
+            existingBook.setTotalCopies(updateDTO.getTotalCopies());
+        }
+        if (updateDTO.getAvailableCopies() != null & updateDTO.getAvailableCopies() >= 0) {
+            existingBook.setAvailableCopies(updateDTO.getAvailableCopies());
+        }
+
+        return bookRepository.save(existingBook);
     }
 }
