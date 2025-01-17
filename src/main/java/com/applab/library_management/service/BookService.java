@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class BookService {
@@ -18,16 +19,7 @@ public class BookService {
     private BookRepository bookRepository;
 
     public Book addBook(AddBookRequestDTO addBookDTO){
-        String role = SecurityContextHolder.getContext()
-                .getAuthentication()
-                .getAuthorities()
-                .iterator()
-                .next()
-                .getAuthority();
-
-        if(!role.equals("ROLE_LIBRARIAN") && !role.equals("ROLE_ADMIN")) {
-            throw new BookExceptions.ForbiddenToAddBookException("Forbidden user role");
-        }
+        allowOnlyLibrarianOrAdminForThisBookOperation();
 
         Optional<Book> existingBook = bookRepository.findByIsbn(addBookDTO.getIsbn());
 
@@ -60,7 +52,28 @@ public class BookService {
         return bookRepository.save(book);
     }
 
+    public void allowOnlyLibrarianOrAdminForThisBookOperation(){
+        String role = SecurityContextHolder.getContext()
+                .getAuthentication()
+                .getAuthorities()
+                .iterator()
+                .next()
+                .getAuthority();
+
+        if(!role.equals("ROLE_LIBRARIAN") && !role.equals("ROLE_ADMIN")) {
+            throw new BookExceptions.ForbiddenBookException("Forbidden to perform this book operation");
+        }
+    }
+
     public List<Book> filterBooks(String title, String author, String category, String isbn) {
         return bookRepository.filterBooks(title, author, category, isbn);
+    }
+
+    public void deleteBook(UUID bookId) {
+        allowOnlyLibrarianOrAdminForThisBookOperation();
+        Book book = bookRepository.findById(bookId)
+                .orElseThrow(() -> new BookExceptions.BookNotFoundException("Book not found with ID: " + bookId));
+
+        bookRepository.deleteById(bookId);
     }
 }

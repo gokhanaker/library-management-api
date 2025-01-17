@@ -35,22 +35,28 @@ public class GlobalExceptionHandler {
 
     //Handle EmailAlreadyExistsException case and return an appropriate response to the client
     @ExceptionHandler(UserExceptions.EmailAlreadyExistsException.class)
-    public ResponseEntity<?> EmailAlreadyExistsException(UserExceptions.EmailAlreadyExistsException ex) {
+    public ResponseEntity<Map<String, String>> EmailAlreadyExistsException(UserExceptions.EmailAlreadyExistsException ex) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("error", ex.getMessage()));
     }
 
     @ExceptionHandler(UserExceptions.UsernameAlreadyExistsException.class)
-    public ResponseEntity<?> UsernameAlreadyExistsException(UserExceptions.UsernameAlreadyExistsException ex) {
+    public ResponseEntity<Map<String, String>> UsernameAlreadyExistsException(UserExceptions.UsernameAlreadyExistsException ex) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("error", ex.getMessage()));
     }
 
     @ExceptionHandler(UserExceptions.UserNotFoundException.class)
-    public ResponseEntity<?> UserNotFoundException(UserExceptions.UserNotFoundException ex) {
+    public ResponseEntity<Map<String, String>> UserNotFoundException(UserExceptions.UserNotFoundException ex) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("error", ex.getMessage()));
     }
 
-    @ExceptionHandler(BookExceptions.ForbiddenToAddBookException.class)
-    public ResponseEntity<?> ForbiddenToAddBookException(BookExceptions.ForbiddenToAddBookException ex) {
+    @ExceptionHandler(BookExceptions.ForbiddenBookException.class)
+    public ResponseEntity<Map<String, String>> ForbiddenBookException(BookExceptions.ForbiddenBookException ex) {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", ex.getMessage()));
     }
+
+    @ExceptionHandler(BookExceptions.BookNotFoundException.class)
+    public ResponseEntity<Map<String, String>> BookNotFoundException(BookExceptions.BookNotFoundException ex) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("error", ex.getMessage()));
+    }
+
 }

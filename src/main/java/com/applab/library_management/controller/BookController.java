@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/books")
@@ -33,5 +34,11 @@ public class BookController {
             ) {
         List<Book> books = bookService.filterBooks(title, author, category, isbn);
         return ResponseEntity.ok(books);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteBook(@PathVariable UUID id) {
+            bookService.deleteBook(id);
+            return ResponseEntity.ok("Book deleted successfully");
     }
 }

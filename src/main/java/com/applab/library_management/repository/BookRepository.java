@@ -12,6 +12,8 @@ import java.util.UUID;
 public interface BookRepository extends JpaRepository<Book, UUID> {
     Optional<Book> findByIsbn(String isbn);
 
+    void deleteById(UUID id);
+
     @Query(value = "SELECT * FROM books b " +
             "WHERE (:title IS NULL OR LOWER(b.title) LIKE LOWER(CONCAT('%', :title, '%'))) " +
             "AND (:author IS NULL OR LOWER(b.author_fullname) LIKE LOWER(CONCAT('%', :author, '%'))) " +
