@@ -1,5 +1,6 @@
 package com.applab.library_management.config;
 
+import com.applab.library_management.security.JwtAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -13,14 +14,14 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
-                .csrf().disable()
+    public SecurityFilterChain securityFilterChain(HttpSecurity http, JwtAuthenticationFilter jwtAuthenticationFilter) throws Exception {
+        http.csrf().disable()
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/auth/register", "/api/auth/login").permitAll() // Allow public access to /register
-                        .anyRequest().authenticated() // Require authentication for all other endpoints
+                        .requestMatchers("/api/auth/login", "/api/users/register").permitAll() // Public endpoints
+                        .anyRequest().authenticated() // All other endpoints require authentication
                 )
-                .httpBasic(); // Use basic authentication
+                // Add the custom JWT filter
+                .addFilterBefore(jwtAuthenticationFilter, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }

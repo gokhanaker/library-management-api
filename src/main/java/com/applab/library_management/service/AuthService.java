@@ -5,12 +5,11 @@ import com.applab.library_management.dto.RegistrationRequestDTO;
 import com.applab.library_management.exception.UserExceptions;
 import com.applab.library_management.model.User;
 import com.applab.library_management.repository.UserRepository;
-import com.applab.library_management.util.JwtUtil;
+import com.applab.library_management.security.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
-import java.util.Optional;
 
 @Service
 public class AuthService {
