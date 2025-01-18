@@ -59,4 +59,9 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("error", ex.getMessage()));
     }
 
+    @ExceptionHandler(BookExceptions.BookNotAvailableToBorrowException.class)
+    public ResponseEntity<Map<String, String>> BookNotAvailableToBorrowException(BookExceptions.BookNotAvailableToBorrowException ex) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("error", ex.getMessage()));
+    }
+
 }

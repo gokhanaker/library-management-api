@@ -48,5 +48,4 @@ public class BookController {
         Book updatedBook = bookService.updateBook(id, updateBookDTO);
         return ResponseEntity.ok(updatedBook);
     }
-
 }

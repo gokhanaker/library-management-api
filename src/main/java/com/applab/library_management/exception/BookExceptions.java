@@ -10,12 +10,6 @@ public class BookExceptions {
         public BookNotFoundException(String message) { super (message);}
     }
 
-    public static class BookAlreadyBorrowedByUserException extends RuntimeException {
-        public BookAlreadyBorrowedByUserException(String message) {
-            super(message);
-        }
-    }
-
     public static class BookNotAvailableToBorrowException extends RuntimeException {
         public BookNotAvailableToBorrowException(String message) {
             super(message);
