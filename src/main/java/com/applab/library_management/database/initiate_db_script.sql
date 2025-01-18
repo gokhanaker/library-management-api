@@ -8,35 +8,6 @@ CREATE TABLE users (
 	updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TYPE category_enum AS ENUM (
-    -- Fiction Categories
-    'MYSTERY',
-    'SCIENCE_FICTION',
-    'FANTASY',
-    'ROMANCE',
-    'HISTORICAL_FICTION',
-
-    -- Non-Fiction Categories
-    'BIOGRAPHY',
-    'SELF_HELP',
-    'TECHNOLOGY',
-    'HISTORY',
-    'SCIENCE',
-
-    -- Academic Categories
-    'MATHEMATICS',
-    'PHYSICS',
-    'LITERATURE',
-    'PROGRAMMING',
-    'PHILOSOPHY',
-
-    -- Other Genres
-    'COMICS_AND_GRAPHIC_NOVELS',
-    'POETRY',
-    'RELIGION_AND_SPIRITUALITY',
-    'TRAVEL'
-);
-
 CREATE TABLE books (
     book_id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
     title VARCHAR(255) NOT NULL,
