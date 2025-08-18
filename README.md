@@ -1,4 +1,4 @@
-# Library Management System
+# Library Management API
 
 A Library Management RESTful API that allows users to manage books, borrow books and return books. It is built with Java 17, Spring Boot and H2 in memory database.
 
@@ -31,7 +31,6 @@ cd library-management-api
 ```
 
 ```
-
 ### 2. Build and Run
 
 ```bash

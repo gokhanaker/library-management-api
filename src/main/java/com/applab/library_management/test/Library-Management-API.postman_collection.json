@@ -1,373 +1,396 @@
 {
 	"info": {
-		"_postman_id": "dee4b773-0f91-49c9-81a0-0bf43d63138e",
-		"name": "Library-Management-API",
+		"_postman_id": "library-management-api",
+		"name": "Library Management API",
+		"description": "A Restful library management system API with managing books, users, and borrowings.",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "1768899"
+		"_exporter_id": "library-management"
 	},
 	"item": [
 		{
 			"name": "Authentication",
 			"item": [
 				{
-					"name": "Register User",
+					"name": "Register Admin",
 					"request": {
-						"auth": {
-							"type": "noauth"
-						},
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"username\": \"applab user2\",\n    \"email\": \"applabuser2@applab.com\",\n    \"password\": \"securepassword2\",\n    \"role\": \"MEMBER\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
+							"raw": "{\n    \"username\": \"admin\",\n    \"email\": \"admin@example.com\",\n    \"password\": \"password123\",\n    \"role\": \"ADMIN\"\n}"
 						},
 						"url": {
-							"raw": "{{BaseURL}}/auth/register",
+							"raw": "{{base_url}}/api/auth/register",
 							"host": [
-								"{{BaseURL}}"
+								"{{base_url}}"
 							],
 							"path": [
+								"api",
 								"auth",
 								"register"
 							]
-						}
+						},
+						"description": "Register a new admin user"
 					},
 					"response": []
 				},
 				{
 					"name": "Register Librarian",
 					"request": {
-						"auth": {
-							"type": "noauth"
-						},
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"username\": \"applab librarian\",\n    \"email\": \"applablibrarian@applab.com\",\n    \"password\": \"securepasswordlibrarian\",\n    \"role\": \"LIBRARIAN\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
+							"raw": "{\n    \"username\": \"librarian\",\n    \"email\": \"librarian@example.com\",\n    \"password\": \"password123\",\n    \"role\": \"LIBRARIAN\"\n}"
 						},
 						"url": {
-							"raw": "{{BaseURL}}/auth/register",
+							"raw": "{{base_url}}/api/auth/register",
 							"host": [
-								"{{BaseURL}}"
+								"{{base_url}}"
 							],
 							"path": [
+								"api",
 								"auth",
 								"register"
 							]
-						}
+						},
+						"description": "Register a new librarian user"
 					},
 					"response": []
 				},
 				{
-					"name": "Register Admin",
+					"name": "Register Member",
 					"request": {
-						"auth": {
-							"type": "noauth"
-						},
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"username\": \"applab admin\",\n    \"email\": \"applabadmin@applab.com\",\n    \"password\": \"securepasswordadmin\",\n    \"role\": \"ADMIN\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
+							"raw": "{\n    \"username\": \"member\",\n    \"email\": \"member@example.com\",\n    \"password\": \"password123\",\n    \"role\": \"MEMBER\"\n}"
 						},
 						"url": {
-							"raw": "{{BaseURL}}/auth/register",
+							"raw": "{{base_url}}/api/auth/register",
 							"host": [
-								"{{BaseURL}}"
+								"{{base_url}}"
 							],
 							"path": [
+								"api",
 								"auth",
 								"register"
 							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Login User",
-					"request": {
-						"auth": {
-							"type": "noauth"
 						},
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"email\":\"applabuser@applab.com\",\n    \"password\":\"securepassword\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{BaseURL}}/auth/login",
-							"host": [
-								"{{BaseURL}}"
-							],
-							"path": [
-								"auth",
-								"login"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Login Librarian",
-					"request": {
-						"auth": {
-							"type": "noauth"
-						},
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"email\": \"applablibrarian@applab.com\",\n    \"password\": \"securepasswordlibrarian\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{BaseURL}}/auth/login",
-							"host": [
-								"{{BaseURL}}"
-							],
-							"path": [
-								"auth",
-								"login"
-							]
-						}
+						"description": "Register a new member user"
 					},
 					"response": []
 				},
 				{
 					"name": "Login Admin",
 					"request": {
-						"auth": {
-							"type": "noauth"
-						},
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"email\": \"applabadmin@applab.com\",\n    \"password\": \"securepasswordadmin\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
+							"raw": "{\n    \"email\": \"admin@example.com\",\n    \"password\": \"password123\"\n}"
 						},
 						"url": {
-							"raw": "{{BaseURL}}/auth/login",
+							"raw": "{{base_url}}/api/auth/login",
 							"host": [
-								"{{BaseURL}}"
+								"{{base_url}}"
 							],
 							"path": [
+								"api",
 								"auth",
 								"login"
 							]
-						}
+						},
+						"description": "Login with admin credentials to get JWT token"
+					},
+					"response": []
+				},
+				{
+					"name": "Login Librarian",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"librarian@example.com\",\n    \"password\": \"password123\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/auth/login",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"login"
+							]
+						},
+						"description": "Login with librarian credentials to get JWT token"
+					},
+					"response": []
+				},
+				{
+					"name": "Login Member",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"member@example.com\",\n    \"password\": \"password123\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/auth/login",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"login"
+							]
+						},
+						"description": "Login with member credentials to get JWT token"
 					},
 					"response": []
 				}
-			]
+			],
+			"description": "Authentication endpoints for user registration and login"
 		},
 		{
 			"name": "Books",
 			"item": [
 				{
-					"name": "Add Book",
+					"name": "Get All Books (Paginated)",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"title\": \"Clean Code\",\n    \"author\": \"Robert C. Martin\",\n    \"isbn\": \"9780132350884\",\n    \"publishedYear\": 2008,\n    \"category\": \"Programming\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}"
 							}
-						},
+						],
 						"url": {
-							"raw": "{{BaseURL}}/books/add",
+							"raw": "{{base_url}}/api/books?page=0&size=10",
 							"host": [
-								"{{BaseURL}}"
+								"{{base_url}}"
 							],
 							"path": [
-								"books",
-								"add"
+								"api",
+								"books"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0",
+									"description": "Page number (0-based)"
+								},
+								{
+									"key": "size",
+									"value": "10",
+									"description": "Number of items per page"
+								}
 							]
-						}
+						},
+						"description": "Get all books with pagination support"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Book by ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/books/{{book_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"books",
+								"{{book_id}}"
+							]
+						},
+						"description": "Get a specific book by its ID"
 					},
 					"response": []
 				},
 				{
 					"name": "Filter Books",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
 						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}"
 							}
-						},
+						],
 						"url": {
-							"raw": "{{BaseURL}}/books/filter",
+							"raw": "{{base_url}}/api/books/filter?title=Java&author=John&category=Programming&isbn=1234567890",
 							"host": [
-								"{{BaseURL}}"
+								"{{base_url}}"
 							],
 							"path": [
+								"api",
 								"books",
 								"filter"
 							],
 							"query": [
 								{
 									"key": "title",
-									"value": "clean",
-									"disabled": true
+									"value": "Java",
+									"description": "Filter by book title (partial match)"
+								},
+								{
+									"key": "author",
+									"value": "John",
+									"description": "Filter by author name (partial match)"
 								},
 								{
 									"key": "category",
 									"value": "Programming",
-									"disabled": true
-								},
-								{
-									"key": "author",
-									"value": "Robert",
-									"disabled": true
+									"description": "Filter by category (exact match)"
 								},
 								{
 									"key": "isbn",
-									"value": "9780132350884",
-									"disabled": true
+									"value": "1234567890",
+									"description": "Filter by ISBN (exact match)"
 								}
 							]
-						}
+						},
+						"description": "Filter books by various criteria (all parameters are optional)"
 					},
 					"response": []
 				},
 				{
-					"name": "Delete Book",
+					"name": "Add Book (Admin/Librarian Only)",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "DELETE",
-						"header": [],
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
 						"body": {
 							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
+							"raw": "{\n    \"title\": \"Spring Boot in Action\",\n    \"isbn\": \"9781617292545\",\n    \"description\": \"A comprehensive guide to Spring Boot development\",\n    \"publicationDate\": \"2023-01-15\",\n    \"category\": \"Programming\",\n    \"author\": \"Craig Walls\"\n}"
 						},
 						"url": {
-							"raw": "{{BaseURL}}/books/2a3dd2ba-b218-4e72-b805-995b5b92b506",
+							"raw": "{{base_url}}/api/books/add",
 							"host": [
-								"{{BaseURL}}"
+								"{{base_url}}"
 							],
 							"path": [
+								"api",
 								"books",
-								"2a3dd2ba-b218-4e72-b805-995b5b92b506"
+								"add"
 							]
-						}
+						},
+						"description": "Add a new book to the library (requires ADMIN or LIBRARIAN role)"
 					},
 					"response": []
 				},
 				{
-					"name": "Update Book",
+					"name": "Update Book (Admin/Librarian Only)",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
 						"method": "PUT",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"availableCopies\": 1\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
+							"raw": "{\n    \"title\": \"Updated Spring Boot in Action\",\n    \"description\": \"Updated comprehensive guide to Spring Boot development\",\n    \"category\": \"Programming\",\n    \"author\": \"Craig Walls\",\n    \"publicationDate\": \"2023-01-15\",\n    \"totalCopies\": 5,\n    \"availableCopies\": 3\n}"
 						},
 						"url": {
-							"raw": "{{BaseURL}}/books/2a3dd2ba-b218-4e72-b805-995b5b92b506",
+							"raw": "{{base_url}}/api/books/{{book_id}}",
 							"host": [
-								"{{BaseURL}}"
+								"{{base_url}}"
 							],
 							"path": [
+								"api",
 								"books",
-								"2a3dd2ba-b218-4e72-b805-995b5b92b506"
+								"{{book_id}}"
 							]
-						}
+						},
+						"description": "Update an existing book (requires ADMIN or LIBRARIAN role)"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Book (Admin/Librarian Only)",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/books/{{book_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"books",
+								"{{book_id}}"
+							]
+						},
+						"description": "Delete a book from the library (requires ADMIN or LIBRARIAN role)"
 					},
 					"response": []
 				}
-			]
+			],
+			"description": "Book management endpoints for CRUD operations"
 		},
 		{
 			"name": "Borrowings",
@@ -375,41 +398,318 @@
 				{
 					"name": "Borrow Book",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"userId\": \"3574692c-ffce-46a2-94fe-a57ed7fae15c\",\n    \"bookId\": \"2a3dd2ba-b218-4e72-b805-995b5b92b506\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
+							"raw": "{\n    \"userId\": \"{{user_id}}\",\n    \"bookId\": \"{{book_id}}\"\n}"
 						},
 						"url": {
-							"raw": "{{BaseURL}}/borrowings/borrow",
+							"raw": "{{base_url}}/api/borrowings/borrow",
 							"host": [
-								"{{BaseURL}}"
+								"{{base_url}}"
 							],
 							"path": [
+								"api",
 								"borrowings",
 								"borrow"
 							]
-						}
+						},
+						"description": "Borrow a book (creates a borrowing record)"
+					},
+					"response": []
+				},
+				{
+					"name": "Return Book",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"borrowingId\": \"{{borrowing_id}}\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/borrowings/return",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"borrowings",
+								"return"
+							]
+						},
+						"description": "Return a borrowed book"
+					},
+					"response": []
+				},
+				{
+					"name": "Get User Borrowings",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/borrowings/user/{{user_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"borrowings",
+								"user",
+								"{{user_id}}"
+							]
+						},
+						"description": "Get all borrowings for a specific user"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Overdue Borrowings",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/borrowings/overdue",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"borrowings",
+								"overdue"
+							]
+						},
+						"description": "Get all overdue borrowings"
 					},
 					"response": []
 				}
-			]
+			],
+			"description": "Borrowing management endpoints"
+		},
+		{
+			"name": "Overdue Management",
+			"item": [
+				{
+					"name": "Get All Overdue Books",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/overdue",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"overdue"
+							]
+						},
+						"description": "Get all overdue books"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Overdue Books for User",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/overdue/user/{{user_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"overdue",
+								"user",
+								"{{user_id}}"
+							]
+						},
+						"description": "Get overdue books for a specific user"
+					},
+					"response": []
+				},
+				{
+					"name": "Check Overdue Books",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/overdue/check",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"overdue",
+								"check"
+							]
+						},
+						"description": "Manually trigger overdue books check"
+					},
+					"response": []
+				}
+			],
+			"description": "Overdue book management endpoints"
+		},
+		{
+			"name": "System",
+			"item": [
+				{
+					"name": "Health Check",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/actuator/health",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"actuator",
+								"health"
+							]
+						},
+						"description": "Check application health status"
+					},
+					"response": []
+				},
+				{
+					"name": "Application Info",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/actuator/info",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"actuator",
+								"info"
+							]
+						},
+						"description": "Get application information"
+					},
+					"response": []
+				},
+				{
+					"name": "Metrics",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/actuator/metrics",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"actuator",
+								"metrics"
+							]
+						},
+						"description": "Get application metrics"
+					},
+					"response": []
+				}
+			],
+			"description": "System monitoring and health check endpoints"
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:8090",
+			"type": "string",
+			"description": "Base URL for the API"
+		},
+		{
+			"key": "jwt_token",
+			"value": "",
+			"type": "string",
+			"description": "JWT token obtained from login"
+		},
+		{
+			"key": "user_id",
+			"value": "",
+			"type": "string",
+			"description": "User ID for testing"
+		},
+		{
+			"key": "book_id",
+			"value": "",
+			"type": "string",
+			"description": "Book ID for testing"
+		},
+		{
+			"key": "borrowing_id",
+			"value": "",
+			"type": "string",
+			"description": "Borrowing ID for testing"
 		}
 	]
 }
