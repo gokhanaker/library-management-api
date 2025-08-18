@@ -5,17 +5,18 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.EqualsAndHashCode;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.util.UUID;
 
-@Data
 @Entity
 @Table(name="users")
+@Getter
+@Setter
 @EqualsAndHashCode(callSuper = true)
-@JsonIgnoreProperties({"password"})
 public class User extends BaseAuditEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -35,6 +36,7 @@ public class User extends BaseAuditEntity {
     @NotBlank(message = "Password is required")
     @Size(min = 6, message = "Password must be at least 6 characters long")
     @Column(name="password", nullable = false)
+    @JsonIgnore
     private String password;
 
     @NotNull(message = "Role is required")
