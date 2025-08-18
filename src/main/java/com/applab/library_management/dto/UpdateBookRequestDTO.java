@@ -2,7 +2,7 @@ package com.applab.library_management.dto;
 
 import lombok.Getter;
 import lombok.Setter;
-import java.util.Date;
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -14,7 +14,7 @@ public class UpdateBookRequestDTO {
 
     private String description;
 
-    private Date publicationDate;
+    private LocalDate publicationDate;
 
     private String category;
 

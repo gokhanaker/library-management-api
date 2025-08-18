@@ -4,11 +4,13 @@ import com.applab.library_management.dto.AddBookRequestDTO;
 import com.applab.library_management.dto.UpdateBookRequestDTO;
 import com.applab.library_management.exception.BookExceptions;
 import com.applab.library_management.model.Book;
+import com.applab.library_management.model.UserRole;
 import com.applab.library_management.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -34,7 +36,6 @@ public class BookService {
     public Book incrementExistingBookNumber(Book book){
         book.setTotalCopies(book.getTotalCopies()+1);
         book.setAvailableCopies(book.getAvailableCopies()+1);
-        book.setUpdatedAt(LocalDateTime.now());
         return bookRepository.save(book);
     }
 
@@ -47,8 +48,6 @@ public class BookService {
         book.setPublicationDate(addBookDTO.getPublicationDate());
         book.setAvailableCopies(1);
         book.setTotalCopies(1);
-        book.setCreatedAt(LocalDateTime.now());
-        book.setUpdatedAt(LocalDateTime.now());
 
         return bookRepository.save(book);
     }
@@ -68,6 +67,15 @@ public class BookService {
 
     public List<Book> filterBooks(String title, String author, String category, String isbn) {
         return bookRepository.filterBooks(title, author, category, isbn);
+    }
+
+    public Page<Book> getAllBooks(Pageable pageable) {
+        return bookRepository.findAll(pageable);
+    }
+
+    public Book getBookById(UUID bookId) {
+        return bookRepository.findById(bookId)
+                .orElseThrow(() -> new BookExceptions.BookNotFoundException("Book not found with ID: " + bookId));
     }
 
     public void deleteBook(UUID bookId) {
