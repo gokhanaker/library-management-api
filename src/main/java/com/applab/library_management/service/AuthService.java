@@ -4,12 +4,12 @@ import com.applab.library_management.dto.LoginRequestDTO;
 import com.applab.library_management.dto.RegistrationRequestDTO;
 import com.applab.library_management.exception.UserExceptions;
 import com.applab.library_management.model.User;
+import com.applab.library_management.model.UserRole;
 import com.applab.library_management.repository.UserRepository;
 import com.applab.library_management.security.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import java.time.LocalDateTime;
 
 @Service
 public class AuthService {
@@ -38,9 +38,7 @@ public class AuthService {
         user.setUsername(request.getUsername());
         user.setEmail(request.getEmail());
         user.setPassword(encodedPassword);
-        user.setRole(request.getRole() != null ? request.getRole() : "MEMBER");
-        user.setCreatedAt(LocalDateTime.now());
-        user.setUpdatedAt(LocalDateTime.now());
+        user.setRole(request.getRole() != null ? UserRole.valueOf(request.getRole().toUpperCase()) : UserRole.MEMBER);
 
         return userRepository.save(user);
     }
@@ -53,6 +51,6 @@ public class AuthService {
             throw new UserExceptions.InvalidCredentialsException("Invalid credentials");
         }
 
-        return jwtUtil.generateToken(user.getEmail(), user.getRole());
+        return jwtUtil.generateToken(user.getEmail(), user.getRole().name());
     }
 }

@@ -1,5 +1,6 @@
 package com.applab.library_management.controller;
 
+import com.applab.library_management.dto.ApiResponse;
 import com.applab.library_management.dto.LoginRequestDTO;
 import com.applab.library_management.dto.LoginResponseDTO;
 import com.applab.library_management.dto.RegistrationRequestDTO;
@@ -11,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
@@ -19,14 +21,15 @@ public class AuthController {
     private AuthService authService;
 
     @PostMapping("/register")
-    public ResponseEntity<User> register(@Valid @RequestBody RegistrationRequestDTO request) {
+    public ResponseEntity<ApiResponse<User>> register(@Valid @RequestBody RegistrationRequestDTO request) {
         User user = authService.registerUser(request);
-        return ResponseEntity.status(HttpStatus.CREATED).body(user);
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(ApiResponse.success("User registered successfully", user));
     }
 
     @PostMapping("/login")
-    public ResponseEntity<LoginResponseDTO> login (@Valid @RequestBody LoginRequestDTO loginRequest) {
+    public ResponseEntity<ApiResponse<LoginResponseDTO>> login (@Valid @RequestBody LoginRequestDTO loginRequest) {
         String token = authService.authenticateAndGenerateToken(loginRequest);
-        return ResponseEntity.ok(new LoginResponseDTO(token));
+        return ResponseEntity.ok(ApiResponse.success("Login successful", new LoginResponseDTO(token)));
     }
 }
