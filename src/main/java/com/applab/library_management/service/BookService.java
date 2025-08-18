@@ -10,6 +10,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -17,17 +19,22 @@ import java.util.UUID;
 @Service
 public class BookService {
 
+    private static final Logger logger = LoggerFactory.getLogger(BookService.class);
+
     @Autowired
     private BookRepository bookRepository;
 
     public Book addBook(AddBookRequestDTO addBookDTO){
+        logger.info("Adding book: {} (ISBN: {})", addBookDTO.getTitle(), addBookDTO.getIsbn());
         allowOnlyLibrarianOrAdminForThisBookOperation();
 
         Optional<Book> existingBook = bookRepository.findByIsbn(addBookDTO.getIsbn());
 
         if(existingBook.isPresent()){
+            logger.info("Book with ISBN {} already exists, incrementing copies", addBookDTO.getIsbn());
             return incrementExistingBookNumber(existingBook.get());
         } else {
+            logger.info("Creating new book with ISBN: {}", addBookDTO.getIsbn());
             return insertNewBook(addBookDTO);
         }
     }
@@ -35,7 +42,8 @@ public class BookService {
     public Book incrementExistingBookNumber(Book book){
         book.setTotalCopies(book.getTotalCopies()+1);
         book.setAvailableCopies(book.getAvailableCopies()+1);
-        return bookRepository.save(book);
+        Book savedBook = bookRepository.save(book);
+        return savedBook;
     }
 
     public Book insertNewBook(AddBookRequestDTO addBookDTO){
@@ -48,7 +56,9 @@ public class BookService {
         book.setAvailableCopies(1);
         book.setTotalCopies(1);
 
-        return bookRepository.save(book);
+        Book savedBook = bookRepository.save(book);
+        logger.info("New book created successfully: {} (ID: {})", savedBook.getTitle(), savedBook.getId());
+        return savedBook;
     }
 
     public void allowOnlyLibrarianOrAdminForThisBookOperation(){

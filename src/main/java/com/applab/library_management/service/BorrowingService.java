@@ -93,11 +93,8 @@ public class BorrowingService {
                 throw new RuntimeException("Book not found in borrowing record");
             }
             
-            logger.info("Found book: {} with current available copies: {}", book.getTitle(), book.getAvailableCopies());
             book.setAvailableCopies(book.getAvailableCopies() + 1);
-            bookRepository.save(book);
-            
-            logger.info("Updated book available copies to: {}", book.getAvailableCopies());
+            bookRepository.save(book);            
 
             Borrowing savedBorrowing = borrowingRepository.save(borrowing);
             logger.info("Successfully saved borrowing record");
