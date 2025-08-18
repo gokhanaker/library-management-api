@@ -13,6 +13,8 @@ import com.applab.library_management.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -21,6 +23,8 @@ import java.util.UUID;
 @Service
 @Transactional
 public class BorrowingService {
+    
+    private static final Logger logger = LoggerFactory.getLogger(BorrowingService.class);
 
     @Autowired
     private BookRepository bookRepository;
@@ -34,20 +38,16 @@ public class BorrowingService {
     private final Integer borrowingBookDurationDays = 15;
 
     public Borrowing borrowBook(BorrowBookRequestDTO borrowRequest) {
-        // Validate user exists
         User user = userRepository.findById(borrowRequest.getUserId())
                 .orElseThrow(() -> new UserExceptions.UserNotFoundException("User not found with ID: " + borrowRequest.getUserId()));
 
-        // Validate book exists
         Book book = bookRepository.findById(borrowRequest.getBookId())
                 .orElseThrow(() -> new BookExceptions.BookNotFoundException("Book not found with ID: " + borrowRequest.getBookId()));
 
-        // Check if book is available
         if (book.getAvailableCopies() <= 0) {
             throw new BookExceptions.BookNotAvailableToBorrowException("No copies available for the book: " + book.getTitle());
         }
 
-        // Check if user has already borrowed this book
         List<Borrowing> existingBorrowings = borrowingRepository.findByUserAndBookAndStatus(
                 user, book, Borrowing.BorrowingStatus.BORROWED);
         if (!existingBorrowings.isEmpty()) {
@@ -70,25 +70,43 @@ public class BorrowingService {
     }
 
     public Borrowing returnBook(ReturnBookRequestDTO returnRequest) {
-        // Find the borrowing record
-        Borrowing borrowing = borrowingRepository.findById(returnRequest.getBorrowingId())
-                .orElseThrow(() -> new BookExceptions.BookNotFoundException("Borrowing record not found"));
+        try {
+            logger.info("Starting return book process for borrowing ID: {}", returnRequest.getBorrowingId());
+            
+            Borrowing borrowing = borrowingRepository.findById(returnRequest.getBorrowingId())
+                    .orElseThrow(() -> new BookExceptions.BookNotFoundException("Borrowing record not found"));
+            
+            logger.info("Found borrowing record: {}", borrowing.getId());
 
-        // Check if book is already returned
-        if (borrowing.getStatus() == Borrowing.BorrowingStatus.RETURNED) {
-            throw new BookExceptions.BookNotAvailableToBorrowException("Book is already returned");
+            if (borrowing.getStatus() == Borrowing.BorrowingStatus.RETURNED) {
+                throw new BookExceptions.BookNotAvailableToBorrowException("Book is already returned");
+            }
+
+            borrowing.setReturnDate(LocalDate.now());
+            borrowing.setStatus(Borrowing.BorrowingStatus.RETURNED);
+            
+            logger.info("Updated borrowing status to RETURNED");
+
+            Book book = borrowing.getBook();
+            if (book == null) {
+                logger.error("Book is null in borrowing record");
+                throw new RuntimeException("Book not found in borrowing record");
+            }
+            
+            logger.info("Found book: {} with current available copies: {}", book.getTitle(), book.getAvailableCopies());
+            book.setAvailableCopies(book.getAvailableCopies() + 1);
+            bookRepository.save(book);
+            
+            logger.info("Updated book available copies to: {}", book.getAvailableCopies());
+
+            Borrowing savedBorrowing = borrowingRepository.save(borrowing);
+            logger.info("Successfully saved borrowing record");
+            
+            return savedBorrowing;
+        } catch (Exception e) {
+            logger.error("Error in returnBook method: {}", e.getMessage(), e);
+            throw e;
         }
-
-        // Update borrowing status
-        borrowing.setReturnDate(LocalDate.now());
-        borrowing.setStatus(Borrowing.BorrowingStatus.RETURNED);
-
-        // Update book availability
-        Book book = borrowing.getBook();
-        book.setAvailableCopies(book.getAvailableCopies() + 1);
-        bookRepository.save(book);
-
-        return borrowingRepository.save(borrowing);
     }
 
     public List<Borrowing> getUserBorrowings(UUID userId) {
