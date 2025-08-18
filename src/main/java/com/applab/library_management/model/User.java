@@ -3,9 +3,11 @@ package com.applab.library_management.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.util.UUID;
 
@@ -13,6 +15,7 @@ import java.util.UUID;
 @Entity
 @Table(name="users")
 @EqualsAndHashCode(callSuper = true)
+@JsonIgnoreProperties({"password"})
 public class User extends BaseAuditEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -34,7 +37,7 @@ public class User extends BaseAuditEntity {
     @Column(name="password", nullable = false)
     private String password;
 
-    @NotBlank(message = "Role is required")
+    @NotNull(message = "Role is required")
     @Enumerated(EnumType.STRING)
     @Column(name="role", nullable = false)
     private UserRole role;
