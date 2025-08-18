@@ -15,25 +15,16 @@ A Library Management RESTful API that allows users to manage books, borrow books
 - **Database: H2 (In-Memory)
 - **Build Tool**: Maven
 
-## Prerequisites
-
-- Java 17 or higher
-- Maven 3.6+
-- Git
-
 ## Setup Instructions
 
+```bash
 ### 1. Clone the Repository
 
-```bash
 git clone https://github.com/gokhanaker/library-management-api
 cd library-management-api
-```
 
-```
 ### 2. Build and Run
 
-```bash
 # Build the project
 mvn clean install
 
@@ -48,7 +39,7 @@ The application will start on `http://localhost:8090`
 - **API Documentation**: `http://localhost:8090/swagger-ui.html`
 - **H2 Database Console**: `http://localhost:8090/h2-console`
   - JDBC URL: `jdbc:h2:mem:library_management_db`
-  - Username: `sa`
+  - Username: `librarian`
   - Password: `password`
 - OpenAPI JSON: `http://localhost:8090/api-docs`
 
