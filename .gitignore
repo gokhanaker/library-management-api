@@ -1,7 +1,3 @@
-# Ignore application.properties and application.yml
-src/main/resources/application.properties
-src/main/resources/application.yml
-
 # Maven specific files
 /target/
 *.iml
