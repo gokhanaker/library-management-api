@@ -4,17 +4,16 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.EqualsAndHashCode;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
 @Table(name="borrowings")
 @Getter
 @Setter
-@EqualsAndHashCode(callSuper = true)
-public class Borrowing extends BaseAuditEntity {
+public class Borrowing {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -50,4 +49,21 @@ public class Borrowing extends BaseAuditEntity {
     public enum BorrowingStatus {
         BORROWED, RETURNED, OVERDUE
     }
+
+    @Column(name = "created_at", nullable = false, updatable = false)
+    private LocalDateTime createdAt;
+
+    @Column(name = "updated_at", nullable = false)
+    private LocalDateTime updatedAt;
+
+    @PrePersist
+    protected void onCreate() {
+        createdAt = LocalDateTime.now();
+        updatedAt = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        updatedAt = LocalDateTime.now();
+    } 
 }

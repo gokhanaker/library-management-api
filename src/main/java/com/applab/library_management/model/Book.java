@@ -6,17 +6,16 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.EqualsAndHashCode;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
 @Table(name="books")
 @Getter
 @Setter
-@EqualsAndHashCode(callSuper = true)
-public class Book extends BaseAuditEntity {
+public class Book {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -54,4 +53,21 @@ public class Book extends BaseAuditEntity {
     @NotBlank(message = "Author is required")
     @Column(name="author_fullname", nullable = false)
     private String author;
+
+    @Column(name = "created_at", nullable = false, updatable = false)
+    private LocalDateTime createdAt;
+
+    @Column(name = "updated_at", nullable = false)
+    private LocalDateTime updatedAt;
+
+    @PrePersist
+    protected void onCreate() {
+        createdAt = LocalDateTime.now();
+        updatedAt = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        updatedAt = LocalDateTime.now();
+    }
 }
