@@ -4,6 +4,7 @@ import com.applab.library_management.dto.BorrowBookRequestDTO;
 import com.applab.library_management.dto.ReturnBookRequestDTO;
 import com.applab.library_management.exception.BookExceptions;
 import com.applab.library_management.exception.UserExceptions;
+import com.applab.library_management.kafka.KafkaProducerService;
 import com.applab.library_management.model.Book;
 import com.applab.library_management.model.Borrowing;
 import com.applab.library_management.model.User;
@@ -34,6 +35,9 @@ public class BorrowingService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private KafkaProducerService kafkaProducerService;
 
     private final Integer borrowingBookDurationDays = 15;
 
@@ -66,6 +70,10 @@ public class BorrowingService {
         borrowing.setDueDate(LocalDate.now().plusDays(borrowingBookDurationDays));
         borrowing.setStatus(Borrowing.BorrowingStatus.BORROWED);
 
+        String message = "Book " + book.getId() + " borrowed by User " + user.getId();
+        kafkaProducerService.sendMessage("borrowing-events", message);
+        logger.info("Sent Kafka message: {}", message);
+        
         return borrowingRepository.save(borrowing);
     }
 
@@ -99,6 +107,10 @@ public class BorrowingService {
             Borrowing savedBorrowing = borrowingRepository.save(borrowing);
             logger.info("Successfully saved borrowing record");
             
+            String message = "Book " + book.getId() + " returned by User " + borrowing.getUser().getId();
+            kafkaProducerService.sendMessage("borrowing-events", message);
+            logger.info("Sent Kafka message: {}", message);
+
             return savedBorrowing;
         } catch (Exception e) {
             logger.error("Error in returnBook method: {}", e.getMessage(), e);
