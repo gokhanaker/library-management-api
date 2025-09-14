@@ -12,10 +12,9 @@ A Library Management RESTful API that allows users to manage books, borrow books
 
 - **Java Version**: 17
 - **Backend**: Spring Boot 3.4.1
-- **Database: H2 (In-Memory)
+- **Database**: H2 (In-Memory)
+- **Message Broker** Kafka
 - **Build Tool**: Maven
-
-git clone https://github.com/gokhanaker/library-management-api
 
 ## Setup Instructions
 
@@ -40,19 +39,13 @@ The application will start on `http://localhost:8090`
 
 ### 3. Start Kafka and Zookeeper (Required for Event Publishing)
 
-Kafka is used for event-driven communication (e.g., publishing borrowing events). You can start Kafka and Zookeeper using Docker Compose:
+Kafka is used for event-driven communication (e.g., publishing borrowing and returning book events). You can start Kafka and Zookeeper using Docker Compose:
 
 ```bash
 docker-compose up -d
 ```
 
 This will start both services and expose Kafka on port 9092. The application expects Kafka at `localhost:9092`.
-
-If your Kafka broker does not auto-create topics, create the required topic manually:
-
-```bash
-docker exec -it library-management-kafka-1 kafka-topics --create --topic borrowing-events --bootstrap-server localhost:9092 --partitions 1 --replication-factor 1
-```
 
 ### 4. Access Tools
 
@@ -62,25 +55,6 @@ docker exec -it library-management-kafka-1 kafka-topics --create --topic borrowi
   - Username: `librarian`
   - Password: `password`
 - OpenAPI JSON: `http://localhost:8090/api-docs`
-
-## Kafka Integration
-
-This project uses Apache Kafka for event-driven communication (e.g., publishing borrowing events).
-
-**Kafka Configuration Example (in `application.yml`):**
-
-```yaml
-spring:
-  kafka:
-    bootstrap-servers: localhost:9092
-    consumer:
-      group-id: library-management-group
-      auto-offset-reset: earliest
-      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-```
-
-When a book is borrowed, a message is published to the `borrowing-events` topic. You can consume these events with another service or a Kafka consumer for notifications or analytics.
 
 ## API Endpoints
 
