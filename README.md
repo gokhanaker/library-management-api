@@ -15,16 +15,20 @@ A Library Management RESTful API that allows users to manage books, borrow books
 - **Database: H2 (In-Memory)
 - **Build Tool**: Maven
 
+git clone https://github.com/gokhanaker/library-management-api
+
 ## Setup Instructions
 
-```bash
 ### 1. Clone the Repository
 
+```bash
 git clone https://github.com/gokhanaker/library-management-api
 cd library-management-api
+```
 
-### 2. Build and Run
+### 2. Build and Run the Application
 
+```bash
 # Build the project
 mvn clean install
 
@@ -34,7 +38,23 @@ mvn spring-boot:run
 
 The application will start on `http://localhost:8090`
 
-### 3. Access Tools
+### 3. Start Kafka and Zookeeper (Required for Event Publishing)
+
+Kafka is used for event-driven communication (e.g., publishing borrowing events). You can start Kafka and Zookeeper using Docker Compose:
+
+```bash
+docker-compose up -d
+```
+
+This will start both services and expose Kafka on port 9092. The application expects Kafka at `localhost:9092`.
+
+If your Kafka broker does not auto-create topics, create the required topic manually:
+
+```bash
+docker exec -it library-management-kafka-1 kafka-topics --create --topic borrowing-events --bootstrap-server localhost:9092 --partitions 1 --replication-factor 1
+```
+
+### 4. Access Tools
 
 - **API Documentation**: `http://localhost:8090/swagger-ui.html`
 - **H2 Database Console**: `http://localhost:8090/h2-console`
@@ -42,6 +62,25 @@ The application will start on `http://localhost:8090`
   - Username: `librarian`
   - Password: `password`
 - OpenAPI JSON: `http://localhost:8090/api-docs`
+
+## Kafka Integration
+
+This project uses Apache Kafka for event-driven communication (e.g., publishing borrowing events).
+
+**Kafka Configuration Example (in `application.yml`):**
+
+```yaml
+spring:
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: library-management-group
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+```
+
+When a book is borrowed, a message is published to the `borrowing-events` topic. You can consume these events with another service or a Kafka consumer for notifications or analytics.
 
 ## API Endpoints
 
