@@ -27,6 +27,10 @@ public class BorrowingService {
     
     private static final Logger logger = LoggerFactory.getLogger(BorrowingService.class);
 
+     // Kafka topic names as constants
+    public static final String TOPIC_BOOK_BORROWED = "book-borrowed";
+    public static final String TOPIC_BOOK_RETURNED = "book-returned";
+
     @Autowired
     private BookRepository bookRepository;
 
@@ -71,7 +75,7 @@ public class BorrowingService {
         borrowing.setStatus(Borrowing.BorrowingStatus.BORROWED);
 
         String message = "Book " + book.getId() + " borrowed by User " + user.getId();
-        kafkaProducerService.sendMessage("borrowing-events", message);
+        kafkaProducerService.sendMessage(TOPIC_BOOK_BORROWED, message);
         logger.info("Sent Kafka message: {}", message);
         
         return borrowingRepository.save(borrowing);
@@ -108,7 +112,7 @@ public class BorrowingService {
             logger.info("Successfully saved borrowing record");
             
             String message = "Book " + book.getId() + " returned by User " + borrowing.getUser().getId();
-            kafkaProducerService.sendMessage("borrowing-events", message);
+            kafkaProducerService.sendMessage(TOPIC_BOOK_RETURNED, message);
             logger.info("Sent Kafka message: {}", message);
 
             return savedBorrowing;
