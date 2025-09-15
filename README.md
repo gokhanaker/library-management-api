@@ -1,12 +1,13 @@
 # Library Management API
 
-A Library Management RESTful API that allows users to manage books, borrow books and return books. It is built with Java 17, Spring Boot and H2 in memory database.
+A Library Management RESTful API that allows users to manage books, borrow books and return books. It is built with Java 17, Spring Boot, Kafka message broker and H2 in memory database.
 
 ## Features
 
 - **User Management**: Registration, authentication, and role-based access control
 - **Book Management**: Add, update, delete, and search books with pagination
 - **Borrowing System**: Borrow and return books with availability tracking
+- **Kafka Event Publishing**: Publishes events to Kafka topics when books are borrowed or returned. These events can be consumed by other microservices (e.g., notification service) for further processing such as sending notifications to users.
 
 ## Technology Stack
 
