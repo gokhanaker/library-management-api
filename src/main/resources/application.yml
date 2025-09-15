@@ -23,12 +23,23 @@ spring:
           apply_to_ddl: false
   kafka:
     bootstrap-servers: localhost:9092
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      acks: all
+      retries: 3
+      batch-size: 16384
+      linger-ms: 5
+      buffer-memory: 33554432
     consumer:
       group-id: library-management-group
       auto-offset-reset: earliest
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-
+      enable-auto-commit: true
+      auto-commit-interval-ms: 1000
+      session-timeout-ms: 30000
+      heartbeat-interval-ms: 3000
 server:
   port: 8090
 
@@ -40,6 +51,8 @@ logging:
     org.hibernate.type.descriptor.sql.BasicBinder: INFO
     org.springframework.web: INFO
     org.springframework.transaction: INFO
+    org.springframework.kafka: DEBUG
+    org.apache.kafka: INFO
   pattern:
     console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
     file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
