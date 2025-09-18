@@ -1,6 +1,6 @@
 # Library Management API
 
-A Library Management RESTful API that allows users to manage books, borrow books and return books. It is built with Java 17, Spring Boot, Kafka message broker and H2 in memory database.
+A Library Management RESTful API that allows users to manage books, borrow books and return books. It is built with Java 21, Spring Boot, Kafka message broker and H2 in memory database.
 
 ## Features
 
@@ -11,7 +11,7 @@ A Library Management RESTful API that allows users to manage books, borrow books
 
 ## Technology Stack
 
-- **Java Version**: 17
+- **Java Version**: 21
 - **Backend**: Spring Boot 3.4.1
 - **Database**: H2 (In-Memory)
 - **Message Broker** Kafka
