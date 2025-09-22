@@ -9,14 +9,6 @@ import org.springframework.kafka.config.TopicBuilder;
 @Configuration
 @EnableKafka
 public class KafkaTopicConfig {
-    // This class can be used to define Kafka topics if needed
-    @Bean
-    public NewTopic bookAddedTopic() {
-    return TopicBuilder.name("book-added")
-            .partitions(1)
-            .replicas(1)
-            .build();
-    }
 
     @Bean
     public NewTopic bookBorrowedTopic() {
