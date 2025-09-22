@@ -7,7 +7,7 @@ A Library Management RESTful API that allows users to manage books, borrow books
 - **User Management**: Registration, authentication, and role-based access control
 - **Book Management**: Add, update, delete, and search books with pagination
 - **Borrowing System**: Borrow and return books with availability tracking
-- **Kafka Event Publishing**: Publishes events to Kafka topics when books are borrowed or returned. These events can be consumed by other microservices (e.g., notification service) for further processing such as sending notifications to users.
+- **Kafka Event Publishing**: Publishes `book-borrowed` and `book-returned` events to Kafka topics when books are borrowed or returned. These messages are consumed by a separate microservice called `library-notification-service` which sends email notifications to users.
 
 ## Technology Stack
 
@@ -75,10 +75,12 @@ This will start both services and expose Kafka on port 9092. The application exp
 
 ### Borrowings
 
-- `POST /api/borrowings/borrow` - Borrow a book
-- `POST /api/borrowings/return` - Return a book
+- `POST /api/borrowings/borrow` - Borrow a book (publishes `book-borrowed` event to Kafka)
+- `POST /api/borrowings/return` - Return a book (publishes `book-returned` event to Kafka)
 - `GET /api/borrowings/user/{userId}` - Get user's borrowings
 - `GET /api/borrowings/overdue` - Get overdue borrowings
+
+**Note**: The `book-borrowed` and `book-returned` events are consumed by the `library-notification-service` which sends email notifications to users.
 
 ## Monitoring
 
